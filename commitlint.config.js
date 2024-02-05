@@ -1,4 +1,5 @@
 // build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+// added: Changes that add new features or functionality
 // ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
 // docs: Documentation only changes
 // feat: A new feature
@@ -31,6 +32,7 @@ module.exports = {
             'always',
             [
                 'build',
+                'added',
                 'chore',
                 'ci',
                 'docs',

@@ -1,7 +1,9 @@
+import Hero from '../components/landing page/hero';
+
 export default function Home() {
     return (
-        <div>
-            <h1>qsdsqsqd</h1>
+        <div className="w-fit h-fit">
+            <Hero />
         </div>
     );
 }
