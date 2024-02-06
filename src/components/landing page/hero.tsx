@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const Hero: React.FC = () => {
     return (
-        <div className="w-screen h-screen bg-[#e8e8e6] flex justify-center flex-col items-center gap-12 ">
+        <div className="w-screen h-screen relative bg-[#f3f3f2] flex justify-center flex-col items-center gap-11 ">
             <Image
                 src="/sticker1.svg"
                 width={260}
@@ -35,7 +35,16 @@ const Hero: React.FC = () => {
                     alt="text highlight"
                     className="absolute -top-16 -right-28 z-0"
                 />
-                <div className="text-blue-600 pb-4">Free Education</div>
+                <div className="text-[#5260DD] relative pb-4">
+                    Free Education
+                    <Image
+                        src="/underline.svg"
+                        width={400}
+                        height={100}
+                        alt="text highlight"
+                        className=" right-12  absolute z-0"
+                    />
+                </div>
                 <div>
                     <span>For Every Student</span>
                     <br />
@@ -47,7 +56,7 @@ const Hero: React.FC = () => {
             <div className="text-center text-black text-base font-medium">
                 we’re developers with the mission to provide a word-class
                 <br />
-                education fro anyone, anywhere.
+                education for anyone, anywhere.
             </div>
 
             {/* button */}
