@@ -49,7 +49,7 @@ const SideNav: React.FC = () => {
                                     <div className="flex gap-2 z-40">
                                         {' '}
                                         <Image
-                                            src={`/icons/${tab.name}.png `}
+                                            src={`/${tab.name}.png `}
                                             width={25}
                                             height={25}
                                             alt="logo"
