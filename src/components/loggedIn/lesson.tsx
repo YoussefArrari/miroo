@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getDialogs } from '../../lib/course';
 import { useEffect, useState } from 'react'; // Import useState for state management
 import { Dialog } from '@prisma/client';
-import DialogContent from './dialogContent';
 import SndMessage from './2ndMessage';
 import Order from './order';
 
@@ -24,7 +23,7 @@ const Lesson: React.FC<lessonProps> = ({
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const fetchedDialogs = await getDialogs(lessonId);
+                const fetchedDialogs = (await getDialogs(lessonId)) as Dialog[];
                 setDialogs(fetchedDialogs); // Update state with fetched dialogs
             } catch (error) {
                 console.error('Error fetching dialogues:', error);

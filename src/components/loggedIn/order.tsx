@@ -4,7 +4,7 @@ interface orderProps {
     exerciseId: string;
     options: string[];
     correctAnswer: string;
-    verifyAnswer: (arg: boolean) => void;
+    verifyAnswer: (arg: boolean | null) => void;
 }
 
 const Order: React.FC<orderProps> = ({
