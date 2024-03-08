@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+
 interface orderProps {
     exerciseId: string;
     options: string[];
@@ -15,13 +16,24 @@ const Order: React.FC<orderProps> = ({
 }) => {
     const [selectedOrder, setSelectedOrder] = useState<string[]>([]);
     const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+    const [isSelect, setIsSelect] = useState<string[]>([]);
 
     const handleOrder = (index: number, option: string) => {
-        setIsSelect((prevSelect) => [...prevSelect, option]);
-        const newOrder = [...selectedOrder];
+        setIsSelect((prevSelect) => {
+            const updatedSelect = prevSelect.includes(option)
+                ? prevSelect.filter((item) => item !== option)
+                : [...prevSelect, option];
 
-        newOrder.push(options[index]);
-        setSelectedOrder(newOrder);
+            return updatedSelect;
+        });
+
+        setSelectedOrder((prevOrder) => {
+            const newOrder = prevOrder.includes(option)
+                ? prevOrder
+                : [...prevOrder, option];
+
+            return newOrder;
+        });
     };
 
     const checkAnswer = () => {
@@ -33,36 +45,38 @@ const Order: React.FC<orderProps> = ({
             verifyAnswer(false);
         }
     };
-    const [isSelect, setIsSelect] = useState<string[]>([]);
-
-    console.log('Type of isSelect:', typeof isSelect);
+    const handleItemClick = (option: string) => {
+        setIsSelect((prev) =>
+            prev.includes(option)
+                ? prev.filter((item) => item !== option)
+                : [...prev, option]
+        );
+        setSelectedOrder((prev) =>
+            prev.includes(option)
+                ? prev.filter((item) => item !== option)
+                : [...prev, option]
+        );
+    };
     return (
         <motion.div className="flex flex-col items-center gap-2 " layout>
             <div className="w-full border-b-2 mb-6 flex gap-4 z-40 justify-center h-20 py-4">
                 {isSelect.map((option, index) => (
                     <motion.div
                         layoutId={option}
-                        key={index}
+                        key={option} // Use option as key for consistency
                         className="relative z-40"
                     >
                         <div
-                            onClick={() => {
-                                setIsSelect((prev) =>
-                                    prev.filter((item) => item !== option)
-                                );
-                                setSelectedOrder(
-                                    selectedOrder.filter(
-                                        (item) => item !== option
-                                    )
-                                );
-                            }}
-                            className={` border py-2 px-4 relative bg-white z-20  rounded-xl cursor-pointer font-normal
-                 
-                    `}
+                            onClick={() => handleItemClick(option)}
+                            className={`border py-2 px-4 relative bg-white z-20 rounded-xl cursor-pointer font-normal ${
+                                selectedOrder.includes(option)
+                                    ? 'bg-gray-100'
+                                    : ''
+                            }`}
                         >
                             {option}
                         </div>
-                        <div className="absolute top-0 bg-gray-200  z-10  rounded-xl left-0 w-full h-full" />
+                        <div className="absolute top-0 bg-gray-200 z-10 rounded-xl left-0 w-full h-full" />
                     </motion.div>
                 ))}
             </div>
@@ -73,10 +87,11 @@ const Order: React.FC<orderProps> = ({
                         {!isSelect.includes(option) && (
                             <motion.div
                                 layoutId={option}
-                                onClick={() => handleOrder(index, option)}
+                                onClick={() => {
+                                    handleOrder(index, option);
+                                }}
                                 className={` border py-2 px-4 relative bg-white z-20  rounded-xl cursor-pointer font-normal
-                        ${selectedOrder.includes(option) ? 'bg-gray-100' : ''}
-                        `}
+                        ${selectedOrder.includes(option) ? 'bg-gray-100' : ''}`}
                             >
                                 {option}
                             </motion.div>
@@ -84,8 +99,7 @@ const Order: React.FC<orderProps> = ({
                         {isSelect.includes(option) && (
                             <div
                                 className={`  py-2 px-4 relative z-20 bg-transparent  rounded-xl text-transparent cursor-pointer font-normal
-                        ${selectedOrder.includes(option) ? 'bg-gray-200' : ''}
-                        `}
+                        ${selectedOrder.includes(option) ? 'bg-gray-200' : ''}`}
                             >
                                 {option}
                             </div>
@@ -102,7 +116,7 @@ const Order: React.FC<orderProps> = ({
                         setSelectedOrder([]);
                         verifyAnswer(null);
                         setIsCorrect(null);
-                        setIsSelect((prev) => []);
+                        setIsSelect([]); // Simplified
                     }}
                     className="bg-stone-100 px-4 py-2 rounded-lg"
                 >
@@ -116,12 +130,16 @@ const Order: React.FC<orderProps> = ({
                     Check
                 </motion.button>
             </div>
-            {/*isCorrect !== null && (
+
+            {/* Uncomment if needed
+            {isCorrect !== null && (
                 <div className="mt-4 text-stone-900">
                     {isCorrect ? 'Correct' : 'Try again'}
                 </div>
-            )*/}
+            )}
+            */}
         </motion.div>
     );
 };
+
 export default Order;

@@ -51,7 +51,7 @@ const SideNav: React.FC = () => {
                                         <Image
                                             src={`/icons/${tab.name}.png `}
                                             width={25}
-                                            height={20}
+                                            height={25}
                                             alt="logo"
                                         />
                                         {tab.name}
