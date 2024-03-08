@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { SignOutButton } from '@clerk/nextjs';
 const SideNav: React.FC = () => {
     const navTabs = [
@@ -14,8 +14,16 @@ const SideNav: React.FC = () => {
     ];
     const pathname = usePathname();
 
+    const isTabHighlighted = (tabLink: string) => {
+        // Extract the first segment of the pathname
+        const pathSegments = pathname.split('/');
+        const tabPath = pathSegments[1];
+        // Check if the tab's link matches the first segment of the pathname
+        return tabLink === `/${tabPath}`;
+    };
+
     return (
-        <div className="w-[20%] max-w-72 h-screen  absolute p-4 left-5 ">
+        <div className="w-[288px]  h-screen  absolute p-4 left-5 ">
             <div className="w-full h-full bg-[#171718] rounded-2xl shadow-xl flex flex-col p-2 justify-between">
                 <div className="w-full h-[10%]  flex items-center justify-center ">
                     {' '}
@@ -48,7 +56,7 @@ const SideNav: React.FC = () => {
                                         />
                                         {tab.name}
                                     </div>
-                                    {pathname === tab.link && (
+                                    {isTabHighlighted(tab.link) && (
                                         <motion.div
                                             transition={{
                                                 type: 'spring',

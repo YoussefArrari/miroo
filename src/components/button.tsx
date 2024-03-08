@@ -35,6 +35,17 @@ export const Button: React.FC<Props> = ({ size, content, type, onClick }) => {
                     <div className="z-10 w-full h-full  absolute top-1 bg-[#424db2] rounded-full" />
                 </motion.div>
             )}
+            {size == 'large' && type == 'primaryDiasbled' && (
+                <motion.div
+                    whileTap={{ scale: 0.98 }}
+                    className="w-fit h-fit relative "
+                >
+                    <button className="bg-[#E1E1E1] z-20 relative  text-[#A6A6A6] px-10 rounded-full py-2 text-base font-semibold">
+                        {content}
+                    </button>
+                    <div className="z-10 w-full h-full  absolute top-1 bg-[#A6A6A6] rounded-full" />
+                </motion.div>
+            )}
             {size == 'small' && type == 'secondary' && (
                 <motion.button
                     whileTap={{ scale: 0.95 }}

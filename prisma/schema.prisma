@@ -15,4 +15,80 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userProgress    UserProgress[]
+}
+
+
+// Course table/entity
+// Course table/entity
+model Course {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  difficulty  String
+  units       Unit[]
+}
+
+// Unit table/entity
+model Unit {
+  id          Int       @id @default(autoincrement())
+  title       String
+  course      Course    @relation(fields: [courseId], references: [id])
+  courseId    Int
+  lessons     Lesson[]
+}
+
+// Lesson table/entity
+model Lesson {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  unit        Unit      @relation(fields: [unitId], references: [id])
+  unitId      Int
+  dialogs     Dialog[]
+  userProgress  UserProgress[]
+}
+
+// Dialog table/entity
+model Dialog {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  lesson      Lesson    @relation(fields: [lessonId], references: [id])
+  lessonId    Int
+  exercises   Exercise[]
+}
+
+// Exercise table/entity
+model Exercise {
+  id               Int          @id @default(autoincrement())
+  type             ExerciseType
+  question         String
+  options          String[]   // Options for Q/A type exercise (nullable)
+  correctOption    Int?         // Index of the correct option for Q/A type exercise (nullable)
+  expectedOutput   String?      // For code execution type exercise (nullable)
+  codeToArrange    String?      // For code arrangement type exercise (nullable)
+  dialog           Dialog       @relation(fields: [dialogId], references: [id])
+  dialogId         Int
+}
+
+// Enum for ExerciseType
+enum ExerciseType {
+  CODE_EXECUTION
+  CODE_ARRANGEMENT
+  Q_A // Question and Answer type
+}
+
+
+
+
+// UserProgress table/entity
+model UserProgress {
+  id          Int      @id @default(autoincrement())
+  userId      String  
+  lessonId    Int
+  completed   Boolean  @default(false)
+  user        User     @relation(fields: [userId], references: [id])
+  lesson      Lesson   @relation(fields: [lessonId], references: [id])
+  
 }
